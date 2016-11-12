@@ -45,15 +45,13 @@ endfunction
 function! s:login(username) abort
   if !exists('s:client')
     let s:client = s:V.import('Web.API.GitHub').new({
-          \ 'token_cache': s:get_cache_instance()
+          \ 'token_cache': s:get_cache_instance(),
+          \ 'authorize_scopes': ['repo'],
+          \ 'authorize_note': printf('github_auth.vim@%s', hostname()),
+          \ 'authorize_note_url': 'https://github.com/momo-lab/github_auth.vim',
           \ })
   endif
-  call s:client.login(a:username, {
-        \ 'authorize_scopes': ['repo'],
-        \ 'authorize_note': printf('github_auth.vim@%s', hostname()),
-        \ 'authorize_note_url': 'https://github.com/momo-lab/github_auth.vim',
-        \ 'skip_authentication': 1
-        \ })
+  call s:client.login(a:username, {'force': 1})
 endfunction
 
 function! s:define_variables(key, value) abort
