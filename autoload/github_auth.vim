@@ -1,10 +1,7 @@
 let s:V = vital#github_auth#new()
 
 function! github_auth#make_token() abort
-  let token = s:get_token()
-  if empty(token)
-    call s:login(g:github_auth_username)
-  endif
+  call s:login(g:github_auth_username)
   call github_auth#set_token_variables()
 endfunction
 
