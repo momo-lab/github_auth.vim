@@ -3,7 +3,7 @@ let s:V = vital#github_auth#new()
 function! github_auth#make_token() abort
   let token = s:get_token()
   if empty(token)
-    call s:login(g:github_auth#username)
+    call s:login(g:github_auth_username)
   endif
   call github_auth#set_token_variables()
 endfunction
@@ -11,14 +11,14 @@ endfunction
 function! github_auth#remove_token() abort
   let token = s:get_token()
   if !empty(token)
-    call s:get_cache_instance().remove(g:github_auth#username)
+    call s:get_cache_instance().remove(g:github_auth_username)
     call github_auth#set_token_variables()
   endif
 endfunction
 
 function! github_auth#set_token_variables() abort
   let token = s:get_token()
-  for key in g:github_auth#variables
+  for key in g:github_auth_variables
     if empty(token)
       if exists(key)
         silent execute printf('unlet %s', key)
@@ -32,14 +32,14 @@ endfunction
 function! s:get_cache_instance() abort
   if !exists('s:cache')
     let s:cache = s:V.import('System.Cache').new('file', {
-          \ 'cache_dir': expand(g:github_auth#cache_dir)
+          \ 'cache_dir': expand(g:github_auth_cache_dir)
           \ })
   endif
   return s:cache
 endfunction
 
 function! s:get_token() abort
-  return s:get_cache_instance().get(g:github_auth#username)
+  return s:get_cache_instance().get(g:github_auth_username)
 endfunction
 
 function! s:login(username) abort
@@ -55,7 +55,7 @@ function! s:login(username) abort
 endfunction
 
 function! s:define_variables(key, value) abort
-  let global_key = 'g:github_auth#' . a:key
+  let global_key = 'g:github_auth_' . a:key
   if !exists(global_key)
     silent execute printf('let %s = %s', global_key, string(a:value))
   endif
