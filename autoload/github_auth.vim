@@ -13,7 +13,7 @@ function! github_auth#generate_token() abort
   call github_auth#set_token_variables()
   redraw
   echo printf('Generated token of %s as %s', 
-        \ 'https://api.github.com', g:github_auth_username)
+        \ g:github_auth_baseurl, g:github_auth_username)
 endfunction
 
 function! github_auth#remove_token() abort
@@ -28,7 +28,7 @@ function! github_auth#remove_token() abort
   call github_auth#set_token_variables()
   redraw
   echo printf('Remove token of %s as %s', 
-        \ 'https://api.github.com', g:github_auth_username)
+        \ g:github_auth_baseurl, g:github_auth_username)
 endfunction
 
 function! github_auth#set_token_variables() abort
@@ -59,6 +59,7 @@ function! s:login(username) abort
   if !exists('s:client')
     let s:client = s:V.import('Web.API.GitHub').new({
           \ 'token_cache': s:get_cache_instance(),
+          \ 'baseurl': g:github_auth_baseurl,
           \ 'authorize_scopes': ['repo'],
           \ 'authorize_note': printf('github_auth.vim@%s', hostname()),
           \ 'authorize_note_url': 'https://github.com/momo-lab/github_auth.vim',
@@ -80,6 +81,7 @@ endfunction
 
 " Default settings
 call s:define_variables('cache_dir', '~/.cache/github_auth.vim')
+call s:define_variables('baseurl', 'https://api.github.com')
 call s:define_variables('username', s:get_github_user())
 call s:define_variables('variables', ['g:github_access_token'])
 
