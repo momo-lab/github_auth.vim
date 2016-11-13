@@ -7,7 +7,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 let s:V = vital#github_auth#new()
-let s:Cache = s:V.import('System.Cache')
+let s:Cache = s:V.import('System.Cache.File')
 
 function! github_auth#generate_token() abort
   call s:login(g:github_auth_username)
@@ -44,7 +44,7 @@ function! github_auth#set_token_variables() abort
 endfunction
 
 function! s:get_cache_instance() abort
-  return s:Cache.new('file', {
+  return s:Cache.new({
         \ 'cache_dir': expand(g:github_auth_cache_dir)
         \ })
 endfunction
