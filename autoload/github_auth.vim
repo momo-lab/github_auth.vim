@@ -1,3 +1,6 @@
+let s:save_cpo = &cpo
+set cpo&vim
+
 let s:V = vital#github_auth#new()
 
 function! github_auth#generate_token() abort
@@ -61,3 +64,6 @@ endfunction
 call s:define_variables('cache_dir', '~/.cache/github_auth.vim')
 call s:define_variables('username', s:get_github_user())
 call s:define_variables('variables', ['g:github_access_token'])
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
