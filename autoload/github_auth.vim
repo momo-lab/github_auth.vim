@@ -11,11 +11,24 @@ let s:V = vital#github_auth#new()
 function! github_auth#generate_token() abort
   call s:login(g:github_auth_username)
   call github_auth#set_token_variables()
+  redraw
+  echo printf('Generated token of %s as %s', 
+        \ 'https://api.github.com', g:github_auth_username)
 endfunction
 
 function! github_auth#remove_token() abort
+  if empty(s:get_token())
+    redraw
+    echohl WarningMsg
+    echo 'Already removed token'
+    echohl None
+    return
+  endif
   call s:get_cache_instance().remove(g:github_auth_username)
   call github_auth#set_token_variables()
+  redraw
+  echo printf('Remove token of %s as %s', 
+        \ 'https://api.github.com', g:github_auth_username)
 endfunction
 
 function! github_auth#set_token_variables() abort
