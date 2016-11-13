@@ -6,20 +6,15 @@ function! github_auth#generate_token() abort
 endfunction
 
 function! github_auth#remove_token() abort
-  let token = s:get_token()
-  if !empty(token)
-    call s:get_cache_instance().remove(g:github_auth_username)
-    call github_auth#set_token_variables()
-  endif
+  call s:get_cache_instance().remove(g:github_auth_username)
+  call github_auth#set_token_variables()
 endfunction
 
 function! github_auth#set_token_variables() abort
   let token = s:get_token()
   for key in g:github_auth_variables
     if empty(token)
-      if exists(key)
-        silent execute printf('unlet %s', key)
-      end
+      silent execute printf('unlet! %s', key)
     else
       silent execute printf('let %s = %s', key, string(token))
     endif
