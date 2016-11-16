@@ -1,5 +1,5 @@
 " Generate GitHub Private access token.
-" Version: 0.1.0
+" Version: 0.1.1
 " Author: momo-lab <momotaro.n@gmail.com> <https://github.com/momo-lab>
 " License: MIT
 
