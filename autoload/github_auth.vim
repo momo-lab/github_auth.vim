@@ -67,7 +67,7 @@ function! s:login(username) abort
   call client.login(a:username, {'force': 1})
 endfunction
 
-function! s:define_variables(key, value) abort
+function! s:define_variable(key, value) abort
   let global_key = 'g:github_auth_' . a:key
   if !exists(global_key)
     silent execute printf('let %s = %s', global_key, string(a:value))
@@ -79,10 +79,10 @@ function! s:get_github_user() abort
 endfunction
 
 " Default settings
-call s:define_variables('cache_dir', '~/.cache/github_auth.vim')
-call s:define_variables('baseurl', 'https://api.github.com')
-call s:define_variables('username', s:get_github_user())
-call s:define_variables('variables', ['g:github_access_token'])
+call s:define_variable('cache_dir', '~/.cache/github_auth.vim')
+call s:define_variable('baseurl', 'https://api.github.com')
+call s:define_variable('username', s:get_github_user())
+call s:define_variable('variables', ['g:github_access_token'])
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
