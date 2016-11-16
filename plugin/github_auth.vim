@@ -3,6 +3,11 @@
 " Author: momo-lab <momotaro.n@gmail.com> <https://github.com/momo-lab>
 " License: MIT
 
+if exists('g:loaded_github_auth')
+  finish
+endif
+let g:loaded_github_auth = 1
+
 let s:save_cpo = &cpo
 set cpo&vim
 
